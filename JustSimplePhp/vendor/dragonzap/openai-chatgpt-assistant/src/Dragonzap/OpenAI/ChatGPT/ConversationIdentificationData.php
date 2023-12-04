@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * Licensed under GPLv2
+ * Author: Daniel McCarthy
+ * Email: daniel@dragonzap.com
+ * Dragon Zap Publishing
+ * Website: https://dragonzap.com
+ */
+
 namespace Dragonzap\OpenAI\ChatGPT;
 
 /**

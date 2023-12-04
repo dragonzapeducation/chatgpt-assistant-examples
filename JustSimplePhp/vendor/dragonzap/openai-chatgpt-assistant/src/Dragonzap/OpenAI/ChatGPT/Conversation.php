@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * Licensed under GPLv2
+ * Author: Daniel McCarthy
+ * Email: daniel@dragonzap.com
+ * Dragon Zap Publishing
+ * Website: https://dragonzap.com
+ */
+
+
 namespace Dragonzap\OpenAI\ChatGPT;
 
 use Dragonzap\OpenAI\ChatGPT\Exceptions\IncompleteRunException;
@@ -45,6 +54,12 @@ class Conversation
         $this->current_run = $current_run;
     }
 
+    private function setCurrentRun(ThreadRunResponse|null $current_run)
+    {
+        $this->current_run = $current_run;
+        $this->assistant->saveConversationIdentificationData($this->getIdentificationData());
+    }
+
     /**
      * @return ConversationIdentificationData Returns an object which identifies the current conversation
      */
@@ -72,12 +87,14 @@ class Conversation
 
     public function run(): void
     {
-        $this->current_run = $this->assistant->getOpenAIClient()->threads()->runs()->create(
+        $current_run = $this->assistant->getOpenAIClient()->threads()->runs()->create(
             threadId: $this->thread->id,
             parameters: [
                 'assistant_id' => $this->assistant->getAssistantId(),
             ],
         );
+
+        $this->setCurrentRun($current_run);
 
     }
 
@@ -118,6 +135,9 @@ class Conversation
         return $run_state;
     }
 
+    /**
+     * Gets the response from the assistant and then clears the current run.
+     */
     public function getResponse(): string
     {
         if ($this->current_run->status != 'completed') {
@@ -128,7 +148,7 @@ class Conversation
             'limit' => 1,
         ]);
 
-
+        $this->setCurrentRun(null);
         return $response->data[0]->content[0]->text->value;
     }
 
@@ -176,13 +196,15 @@ class Conversation
         }
 
         // Now we have called the function and got a response lets pass it back to chatgpt
-        $this->current_run = $this->assistant->getOpenAIClient()->threads()->runs()->submitToolOutputs(
+        $current_run = $this->assistant->getOpenAIClient()->threads()->runs()->submitToolOutputs(
             threadId: $this->thread->id,
             runId: $this->current_run->id,
             parameters: [
                 'tool_outputs' => $tool_outputs,
             ]
         );
+
+        $this->setCurrentRun($current_run);
 
     }
     public function getRunState(): RunState
@@ -191,10 +213,10 @@ class Conversation
             return RunState::NON_EXISTANT;
         }
 
-        $this->current_run = $this->assistant->getOpenAIClient()->threads()->runs()->retrieve(
+        $this->setCurrentRun($this->assistant->getOpenAIClient()->threads()->runs()->retrieve(
             threadId: $this->thread->id,
             runId: $this->current_run->id,
-        );
+        ));
 
 
         if ($this->current_run->status == 'requires_action') {

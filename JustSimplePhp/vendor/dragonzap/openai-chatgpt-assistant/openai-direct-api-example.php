@@ -17,13 +17,24 @@ class JessicaAssistant extends Assistant
         parent::__construct($api_config);
     }
 
+    
     /**
      * You should replace the assistant ID with your own chatgpt assistant id.
      */
     public function getAssistantId(): string
     {
         return 'asst_0q46BUiesPu5XStGHufJVCba';
-    }
+    }    /**
+    * This function is invoked automatically everytime the library wants us to save the conversation data 
+    * to our database. This only has to be implemented if you plan to store conversations over multiple requests
+    * In this example we handle it all in a console application so we dont need to maintain any state.
+    */
+   public function saveConversationIdentificationData(ConversationIdentificationData $conversation_id_data): void
+   {
+       // Since we are blocking we dont need to save this identification data
+       // the whole conversation is handled in one request.
+   }
+
 
     private function handleGetWeatherFunction(array $arguments)
     {
