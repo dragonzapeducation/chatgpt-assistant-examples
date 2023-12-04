@@ -4,7 +4,7 @@ This repository provides simple PHP examples for using the ChatGPT Assistant wra
 
 ## Installation
 
-To install the ChatGPT Assistant wrapper, use Composer. Run the following command in your project directory:
+To install the [ChatGPT Assistant wrapper](https://github.com/dragonzapeducation/chatgpt-assistant), use Composer. Run the following command in your project directory:
 
 ```bash
 composer require dragonzap/openai-chatgpt-assistant
