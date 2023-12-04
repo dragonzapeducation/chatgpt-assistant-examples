@@ -1,6 +1,6 @@
 # ChatGPT Assistant Wrapper Examples in PHP
 
-This repository provides simple PHP examples for using the ChatGPT Assistant wrapper. These examples are designed to help you understand how to integrate and use the ChatGPT Assistant in various scenarios.
+This repository provides a simple PHP Laravel 9 Application for using the ChatGPT Assistant wrapper. These examples are designed to help you understand how to integrate and use the ChatGPT Assistant in various scenarios. You may clone this repository to use as a starting base or follow the installation guide below
 
 <p align="center">
   <img src="https://github.com/dragonzapeducation/chatgpt-assistant/blob/main/screenshot.JPG" alt="Screenshot example of the laravel application" width="250"/>
