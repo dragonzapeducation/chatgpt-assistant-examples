@@ -74,7 +74,7 @@ class JessicaAssistant extends Assistant
 }
 
 // Replace the API Key with your own chatgpt API key
-$assistant = new JessicaAssistant(new APIConfiguration('OPENAI API KEY HERE'));
+$assistant = new JessicaAssistant(new APIConfiguration('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'));
 $openai = $assistant->getOpenAIClient();
 
 // With the openai client obtained we can now use direct api features like so

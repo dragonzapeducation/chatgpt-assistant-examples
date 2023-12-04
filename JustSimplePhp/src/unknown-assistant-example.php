@@ -17,7 +17,7 @@ use Dragonzap\OpenAI\ChatGPT\UnknownAssistant;
  */
 
 // Replace the API Key with your own chatgpt API key
-$assistant = new UnknownAssistant(new APIConfiguration('OPENAI API KEY HERE'), 'asst_0q46BUiesPu5XStGHufJVCba');
+$assistant = new UnknownAssistant(new APIConfiguration('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'), 'asst_0q46BUiesPu5XStGHufJVCba');
 $conversation = $assistant->newConversation();
 
 while(1)
