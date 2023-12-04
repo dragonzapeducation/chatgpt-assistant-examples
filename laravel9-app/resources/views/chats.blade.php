@@ -8,7 +8,6 @@
     @csrf
     Select an assistant:
     <select name="assistant_codename">
-        <option value="default">Default Assistant</option>
         <option value="sally">Sally Assistant</option>
     </select>
     <input type="submit" name="submit" value="Create Chat" />

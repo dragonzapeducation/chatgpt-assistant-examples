@@ -23,16 +23,6 @@ use Illuminate\Http\Request;
  * 
  * The controller employs a method 'getAssistant' to initialize ChatGPT assistants of different types, 
  * thus allowing for flexibility in managing multiple assistant personalities or configurations.
- * 
- *  * A crucial aspect managed by this controller is the tracking and updating of ChatGPT run states. Each ChatGPT conversation can be running/processing 
- * The controller ensures that the state of each run is accurately maintained and updated in the database using the line:
- * '$chatgptConversation->saved_state = $conversation->getIdentificationData()->getSaveDataString(); $chatgptConversation->save();'
- * This line is essential for preventing issues like duplicate completions, as it helps the application recognize when a particular run is finished or still in progress.
- * Proper management of these states is vital for avoiding redundancies and ensuring that conversations are correctly continued or concluded.
- * 
- * If you was to call the library with an older than present state then you may find duplicate messages from chatgpt appearing in your database.
- * 
- * The state should be updated when RunState is equal to RunState::COMPLETED and in cases where any new user messages are created.
  */
 
 class ChatController extends Controller
@@ -47,15 +37,19 @@ class ChatController extends Controller
     /**
      * Used to allow you to create assistants of particular types
      */
-    private function getAssistant($codename)
+    private function getAssistant($codename, ChatGPTConversation|null $chatgptConversation = null)
     {
         // Assistant ID below
 
-        $assistant = new UnknownAssistant(NULL, 'asst_0q46BUiesPu5XStGHufJVCba');
+        $assistant = null;
         switch ($codename) {
             case 'sally':
                 $assistant = new SallyAssistant();
+                $assistant->setConversation($chatgptConversation);
                 break;
+        
+            default:
+                throw new \Exception('Assistant not found');
         }
 
         return $assistant;
@@ -66,11 +60,17 @@ class ChatController extends Controller
         $chatgpt_assistant = $this->getAssistant($request->assistant_codename);
         $conversation = $chatgpt_assistant->newConversation();
         
+        // You can think of the save data string as a way to restore the conversation
+        // at a later point in time. Which is essential for our application since your able
+        // to store chats in the database.
         $save_data_string = $conversation->getIdentificationData()->getSaveDataString();
         $thread_id = $conversation->getIdentificationData()->getConversationId();
 
         $chatgpt_convo = new ChatGPTConversation();
         $chatgpt_convo->assistant_codename = $request->assistant_codename;
+
+        // Store the save data string of the libraries chatgpt conversation object, we can use it later to load
+        // the conversation again.
         $chatgpt_convo->saved_state = $save_data_string;
         $chatgpt_convo->thread_id = $thread_id;
         $chatgpt_convo->save();
@@ -86,9 +86,14 @@ class ChatController extends Controller
     {
 
         // Get the assistant by the codename it was created with
-        $chatgpt_assistant = $this->getAssistant($chatgptConversation->assistant_codename);
-        $chatgpt_assistant->setConversation($chatgptConversation);
+        $chatgpt_assistant = $this->getAssistant($chatgptConversation->assistant_codename, $chatgptConversation);
+      
         try {
+            // Here we will reload the conversation from the saved_state which was stored when the conversation was created.
+            // Any changes to the conversation will result in our chatgpt conversation model's saved_state to have to be updated again
+            // thankfully this is handled by the Dragonzap chatgpt assistants library automatically. Take a look at the SallyAssistant
+            // found here app/Assistants/SallyAssistant.php  . You will see the saveConversationIdentificationData method. This method
+            // is called whenever we need to reupdate the saved_state in our chatgptConversation.
             $conversation = $chatgpt_assistant->loadConversation(ConversationIdentificationData::fromSaveData($chatgptConversation->saved_state));
         } catch (\Exception $ex) {
             // Here we just rethrow the exception if theirs an issue loading the conversation.
@@ -117,10 +122,14 @@ class ChatController extends Controller
         $message = $request->get('message');
 
         // Get the assistant by the codename that it was created with
-        $chatgpt_assistant = $this->getAssistant($chatgptConversation->assistant_codename);
-        $chatgpt_assistant->setConversation($chatgptConversation);
+        $chatgpt_assistant = $this->getAssistant($chatgptConversation->assistant_codename, $chatgptConversation);
 
         try {
+              // Here we will reload the conversation from the saved_state which was stored when the conversation was created.
+            // Any changes to the conversation will result in our chatgpt conversation model's saved_state to have to be updated again
+            // thankfully this is handled by the Dragonzap chatgpt assistants library automatically. Take a look at the SallyAssistant
+            // found here app/Assistants/SallyAssistant.php  . You will see the saveConversationIdentificationData method. This method
+            // is called whenever we need to reupdate the saved_state in our chatgptConversation.
             $conversation = $chatgpt_assistant->loadConversation(ConversationIdentificationData::fromSaveData($chatgptConversation->saved_state));
         } catch (\Exception $ex) {
             // Here we just rethrow the loading of the exception if theirs an issue loading the conversation.
@@ -129,12 +138,6 @@ class ChatController extends Controller
         }
         try {
             $conversation->sendMessage($message);
-
-            // Remember to update the save data again, doing this will allow us to retrieve from the
-            // most up to date state.
-            $save_data_string = $conversation->getIdentificationData()->getSaveDataString();
-            $chatgptConversation->saved_state = $save_data_string;
-            $chatgptConversation->save();
         } catch (\Exception $ex) {
 
             // In this test enviroment we just throw this, but you will want to handle it in real life senarios.

@@ -20,7 +20,7 @@ class SallyAssistant extends Assistant
         $this->conversation = $conversation;
     }
 
-    public function setConversation(ChatGPTConversation $conversation): void
+    public function setConversation(ChatGPTConversation|null $conversation): void
     {
         $this->conversation = $conversation;
     }

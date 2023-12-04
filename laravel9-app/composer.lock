@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2d7060e403cada8f4d7a3654316ffc28",
+    "content-hash": "ead709d06c80c58d7874ef2908cca829",
     "packages": [
         {
             "name": "brick/math",
@@ -436,16 +436,16 @@
         },
         {
             "name": "dragonzap/openai-chatgpt-assistant",
-            "version": "v0.1.0",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dragonzapeducation/chatgpt-assistant.git",
-                "reference": "201e31708dda4a23877da49ae537c616a693fea1"
+                "reference": "541c1e987bedd7caf704514956a9b3b08e4d6bf9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dragonzapeducation/chatgpt-assistant/zipball/201e31708dda4a23877da49ae537c616a693fea1",
-                "reference": "201e31708dda4a23877da49ae537c616a693fea1",
+                "url": "https://api.github.com/repos/dragonzapeducation/chatgpt-assistant/zipball/541c1e987bedd7caf704514956a9b3b08e4d6bf9",
+                "reference": "541c1e987bedd7caf704514956a9b3b08e4d6bf9",
                 "shasum": ""
             },
             "require": {
@@ -470,9 +470,9 @@
             "description": "Provides clean abstraction for the chatgpt assistant API. Build and run assistants with a clean easy to use design",
             "support": {
                 "issues": "https://github.com/dragonzapeducation/chatgpt-assistant/issues",
-                "source": "https://github.com/dragonzapeducation/chatgpt-assistant/tree/v0.1.0"
+                "source": "https://github.com/dragonzapeducation/chatgpt-assistant/tree/v0.2.0"
             },
-            "time": "2023-12-03T15:41:09+00:00"
+            "time": "2023-12-04T00:20:48+00:00"
         },
         {
             "name": "egulias/email-validator",
