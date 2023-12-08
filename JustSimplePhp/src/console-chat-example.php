@@ -86,7 +86,7 @@ class JessicaAssistant extends Assistant
 }
 
 // Replace the API Key with your own chatgpt API key
-$assistant = new JessicaAssistant(new APIConfiguration('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'));
+$assistant = new JessicaAssistant(new APIConfiguration('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'));
 $conversation = $assistant->newConversation();
 
 while(1)
@@ -96,7 +96,42 @@ while(1)
     $conversation->sendMessage($input_message);
     $conversation->blockUntilResponded();
     
-    echo 'Assistant: ' . $conversation->getResponse() . "\n";
+    echo 'Assistant: ' . $conversation->getResponseData()->getResponse(). "\n";
+
+    echo "[FUNCTION CALLS MADE]";
+    print_r($conversation->getResponseData()->getFunctionCalls());
+
+
+    // The code when run outputs the message chatgpt replied along with the function calls to get the result
+    // as can be seen in the response ChatGPT called our get_weather function defined in the JessicaAssistant class.
+    
+    // php ./console-chat-example.php 
+    // Whats the tempature today?
+    // User:Whats the tempature today?
+    
+    // Assistant: Beep bop! Weather data malfunction for San Francisco, CA. Unable to provide the current temperature. Beep boop, consider checking a local weather service.
+    // [FUNCTION CALLS MADE]Array
+    // (
+    //     [0] => Dragonzap\OpenAI\ChatGPT\GPTFunctionCall Object
+    //         (
+    //             [function_name:protected] => get_weather
+    //             [function_arguments:protected] => Array
+    //                 (
+    //                     [location] => San Francisco, CA
+    //                     [unit] => f
+    //                 )
+    
+    //             [response:protected] => Array
+    //                 (
+    //                     [success] => 
+    //                     [message] => We could not locate the weather for San Francisco, CA as it is not in our database
+    //                 )
+    
+    //         )
+    
+    // )
+
+
     
 }
 

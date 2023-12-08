@@ -133,7 +133,7 @@ sleep(5);
 // later restored.
 $reloaded_conversation = $assistant->loadConversation(ConversationIdentificationData::fromSaveData($base64_encoded_save_data));
 if ($reloaded_conversation->getRunState() == RunState::COMPLETED) {
-    echo 'Responded:' . $reloaded_conversation->getResponse();
+    echo 'Responded:' . $reloaded_conversation->getResponseData()->getResponse();
 } else if ($reloaded_conversation->getRunState() == RunState::FAILED) {
     echo ' Conversation failure';
 } else if ($reloaded_conversation->getRunState() == RunState::RUNNING) {

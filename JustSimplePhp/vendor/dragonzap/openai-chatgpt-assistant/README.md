@@ -1,6 +1,8 @@
 # chatgpt-assistant
 Provides clean abstraction layer for the chatgpt assistant API. Build and run assistants with a clean easy to use design, compatible with raw PHP and also Laravel framework.
+
 [Documentation for Installation on Laravel framework](https://github.com/dragonzapeducation/chatgpt-assistant-examples/tree/main/laravel9-app)
+
 [Documentation for Installation without Laravel framework](https://github.com/dragonzapeducation/chatgpt-assistant-examples/tree/main/JustSimplePhp)
 
 ## Installation
@@ -39,7 +41,7 @@ JessicaAssistant will override the `handleFunction()` method which will be calle
         switch($function)
         {
             case 'get_weather':
-                $response = ['success' => true, 'message' => 'We will pretend its a sunny day where ever you live']
+                $response = ['success' => true, 'message' => 'We will pretend its a sunny day where ever you live'];
                 break;
 
             default:

@@ -64,6 +64,13 @@ class JessicaAssistant extends Assistant
             'message' => $message,
         ];
     }
+
+    /**
+     * The handleFunction method will be called anytime your ChatGPT assistant executes a function.
+     * Data returned is stored in the ResponseData object of your ChatGPT conversation. This data can then
+     * be used to see how the function was handled if needed or also passed to the frontend so that the frontend can
+     * perform actions on behalf of chatgpt such as showing a discount voucher to the user.
+     */
     public function handleFunction(string $function, array $arguments): string|array
     {
         $response = [];
@@ -86,7 +93,7 @@ class JessicaAssistant extends Assistant
 }
 
 // Replace the API Key with your own chatgpt API key
-$assistant = new JessicaAssistant(new APIConfiguration('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'));
+$assistant = new JessicaAssistant(new APIConfiguration('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'));
 $conversation = $assistant->newConversation();
 
 while(1)
@@ -96,7 +103,29 @@ while(1)
     $conversation->sendMessage($input_message);
     $conversation->blockUntilResponded();
     
-    echo 'Assistant: ' . $conversation->getResponse() . "\n";
+    echo 'Assistant: ' . $conversation->getResponseData()->getResponse() . "\n";
+
+    // Easily get the function calls that took place during the ChatGPT run.
+    // You can pass the function call array to your front end so your javascript can perform
+    // actions on behalf of the user instructed by ChatGPT. 
+    print_r($conversation->getResponseData()->getFunctionCalls());
+    // OUTPUT FROM PRINT_R
+    // [0] => Dragonzap\OpenAI\ChatGPT\GPTFunctionCall Object
+    // (
+    //     [function_name:protected] => get_weather
+    //     [function_arguments:protected] => Array
+    //         (
+    //             [location] => Cardiff
+    //         )
+
+    //     [response:protected] => Array
+    //         (
+    //             [success] => 1
+    //             [message] => The weather in wales, cardiff is Rainy today
+    //         )
+
+    // )
+
     
 }
 

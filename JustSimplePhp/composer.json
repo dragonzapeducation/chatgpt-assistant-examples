@@ -1,6 +1,8 @@
 {
     "require": {
-        "dragonzap/openai-chatgpt-assistant": "^1.0.0"
+        "dragonzap/openai-chatgpt-assistant": "^1.0.0",
+        "symfony/http-client": "^7.0",
+        "nyholm/psr7": "^1.8"
     },
     "config": {
         "allow-plugins": {

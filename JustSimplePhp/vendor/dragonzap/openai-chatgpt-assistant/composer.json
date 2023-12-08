@@ -15,7 +15,7 @@
     ],
     "require": {
         "laravel/framework":"^9.0",
-        "openai-php/laravel": "^0.8.0"
+        "openai-php/client": "^0.8.0"
     },
     "config": {
         "allow-plugins": {

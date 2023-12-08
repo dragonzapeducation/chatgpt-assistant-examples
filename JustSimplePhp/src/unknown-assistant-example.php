@@ -27,7 +27,7 @@ while(1)
     $conversation->sendMessage($input_message);
     $conversation->blockUntilResponded();
     
-    echo 'Assistant: ' . $conversation->getResponse() . "\n";
+    echo 'Assistant: ' . $conversation->getResponseData()->getResponse() . "\n";
     
 }
 

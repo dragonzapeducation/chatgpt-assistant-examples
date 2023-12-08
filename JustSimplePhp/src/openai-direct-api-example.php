@@ -25,6 +25,11 @@ class JessicaAssistant extends Assistant
         return 'asst_0q46BUiesPu5XStGHufJVCba';
     }
 
+    function saveConversationIdentificationData(ConversationIdentificationData $conversation_id_data) : void
+    {
+        // Nothing to implement
+    }
+
     private function handleGetWeatherFunction(array $arguments)
     {
         $success = false;
