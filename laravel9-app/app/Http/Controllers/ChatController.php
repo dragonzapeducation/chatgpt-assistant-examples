@@ -106,11 +106,12 @@ class ChatController extends Controller
             $chatgpt_conversation_message = new ChatGPTConversationMessage();
             $chatgpt_conversation_message->conversation()->associate($chatgptConversation);
             $chatgpt_conversation_message->from = 'Assistant';
-            $chatgpt_conversation_message->content = $conversation->getResponse();
+            $chatgpt_conversation_message->content = $conversation->getResponseData()->getResponse();
             $chatgpt_conversation_message->save();
 
 
-            return response()->json(['success' => true, 'run_state' => $run_state, 'new_response' => true, 'assistant_response' => $chatgpt_conversation_message->content]);
+            $function_calls = $conversation->getResponseData()->getFunctionCalls();
+            return response()->json(['success' => true, 'run_state' => $run_state, 'new_response' => true, 'assistant_response' => $chatgpt_conversation_message->content, 'function_calls' => $function_calls]);
         }
 
         return response()->json(['success' => true, 'run_state' => $run_state, 'new_response' => false]);
