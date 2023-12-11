@@ -1,4 +1,5 @@
 <?php
+use App\Assistants\BossyBettyAssistant;
 
 /*
  * Licensed under GPLv2
@@ -10,6 +11,9 @@
  
 return [
     'openai' => [
-        'key' => env('OPENAI_CHATGPT_KEY', 'default-key-value')
+        'key' => env('OPENAI_CHATGPT_KEY', 'default-key-value'),
+    ],
+    'assistants' => [
+        'betty' => BossyBettyAssistant::class
     ]
 ];
