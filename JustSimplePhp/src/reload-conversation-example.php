@@ -99,7 +99,7 @@ class JessicaAssistant extends Assistant
 }
 
 // Replace the API Key with your own chatgpt API key
-$assistant = new JessicaAssistant(new APIConfiguration('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'));
+$assistant = new JessicaAssistant(new APIConfiguration('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'));
 $conversation = $assistant->newConversation();
 
 // Write a message
@@ -146,5 +146,4 @@ if ($reloaded_conversation->getRunState() == RunState::COMPLETED) {
     echo 'Function/action is being invoked';
 }
 // ect ect....
-
 

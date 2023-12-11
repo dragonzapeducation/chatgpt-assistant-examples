@@ -86,7 +86,7 @@ class JessicaAssistant extends Assistant
 }
 
 // Replace the API Key with your own chatgpt API key
-$assistant = new JessicaAssistant(new APIConfiguration('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'));
+$assistant = new JessicaAssistant(new APIConfiguration('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'));
 $conversation = $assistant->newConversation();
 
 while(1)
