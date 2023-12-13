@@ -1,5 +1,6 @@
 <?php
 use App\Assistants\BossyBettyAssistant;
+use App\Assistants\WeatherAssistant;
 
 /*
  * Licensed under GPLv2
@@ -14,6 +15,7 @@ return [
         'key' => env('OPENAI_CHATGPT_KEY', 'default-key-value'),
     ],
     'assistants' => [
-        'betty' => BossyBettyAssistant::class
+        'betty' => BossyBettyAssistant::class,
+        'weather' => WeatherAssistant::class
     ]
 ];
