@@ -21,5 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::group([], function () {
-    Route::post('/v1/assistant/{assistant}/ask', [AIAssistantController::class, 'askQuestion']);
+    Route::post('/v1/assistant/{assistant}/ask', [AIAssistantController::class, 'askQuestion'])->name('api.v1.assistants.askQuestion');
 });

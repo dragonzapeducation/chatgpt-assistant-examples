@@ -23,7 +23,6 @@ class WeatherAssistant extends Assistant
         $location = $arguments['location'];
         // Below code sourced from: https://github.com/cmfcmf/OpenWeatherMap-PHP-API/blob/main/Examples/WeatherForecast.php
         
-        // Example 1: Get forecast for the next 5 days for Berlin.
         try
         {
             $forecast = $owm->getWeather($location, 'metric');
@@ -40,8 +39,15 @@ class WeatherAssistant extends Assistant
 
     public function handleHandleWeatherFunction(array $arguments) : array
     {
+        $category = $arguments['category'];
+        // In real life application you might have categories stored in the database
+        // and a column in the table would represent the icon
+        // Using  asset in this way as shown below is not recommended for production and only for testing purposes.
+        $icon_url = asset('images/chat/icons/weather/' . $category . '.png');
         return [
             'state' => 'success',
+            'chatgpt_info' => 'Do not display the icon url to the user or use it in anyway',
+            'icon_url' => $icon_url
         ];
     }
     public function handleFunction(string $function, array $arguments): array|string
