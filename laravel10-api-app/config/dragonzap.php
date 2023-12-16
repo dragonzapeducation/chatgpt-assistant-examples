@@ -9,13 +9,19 @@ use App\Assistants\WeatherAssistant;
  * Website: https://dragonzap.com
  */
 
- 
+
 return [
     'openai' => [
         'key' => env('OPENAI_CHATGPT_KEY', 'default-key-value'),
     ],
     'assistants' => [
-        'betty' => BossyBettyAssistant::class,
-        'weather' => WeatherAssistant::class
-    ]
+        'betty' => [
+            'class' => BossyBettyAssistant::class,
+            'id' => env('BOSSYBETTYAASSISTANT_ID')
+        ],
+        'weather' => [
+            'class' => WeatherAssistant::class,
+            'id' => env('WEATHERASSISTANT_ID'),
+        ]
+    ],
 ];

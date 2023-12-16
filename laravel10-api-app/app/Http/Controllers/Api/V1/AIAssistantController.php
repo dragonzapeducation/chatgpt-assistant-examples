@@ -32,7 +32,7 @@ class AIAssistantController extends ApiController
 
         // Class name is stored  in each config assistant entry, thus we create a new instance
         // of the assistant object
-        return new(config('dragonzap.assistants')[$assistant])();
+        return new(config('dragonzap.assistants')[$assistant]['class'])();
     }
 
     /**

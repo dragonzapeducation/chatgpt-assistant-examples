@@ -7,7 +7,7 @@ class BossyBettyAssistant extends Assistant
 {
     public function getAssistantId(): string
     {
-        return 'asst_EeISm92FY4mtwNK3yth0wFVS';
+        return config('dragonzap.assistants.betty.id');
     }
     public function handleFunction(string $function, array $arguments): array|string
     {

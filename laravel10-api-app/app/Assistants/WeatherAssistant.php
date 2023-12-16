@@ -11,7 +11,7 @@ class WeatherAssistant extends Assistant
 {
     public function getAssistantId(): string
     {
-        return 'asst_cWrXNjOWrfhacZSKzjrOvwKq';
+        return config('dragonzap.assistants.weather.id');
     }
 
     /**
