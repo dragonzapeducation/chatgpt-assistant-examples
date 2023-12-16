@@ -35,7 +35,7 @@ You are a weather assistant your job is to help find the weather for the user. B
 
 
 #### Creating the get_weather function
-Next you need to create the `get_weather` function inside of your GPT Assistant. ChatGPT will call your get_weather function within your [Weather Assistant Class](https://github.com/dragonzapeducation/chatgpt-assistant-examples/blob/main/laravel10-api-app/app/Assistants/WeatherAssistant.php) whenever it wishes to look up the weather for a particular function. Define the `get_weather` function now at  [platform.openai.com](https://platform.openai.com):
+Next you need to create the `get_weather` function inside of your GPT Assistant. ChatGPT will call your get_weather function within your [Weather Assistant Class](https://github.com/dragonzapeducation/chatgpt-assistant-examples/blob/main/laravel10-api-app/app/Assistants/WeatherAssistant.php) whenever it wishes to look up the weather for a particular location. Define the `get_weather` function now at  [platform.openai.com](https://platform.openai.com):
 ```
 {
   "name": "get_weather",
