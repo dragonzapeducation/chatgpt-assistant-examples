@@ -1,66 +1,100 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><a href="https://dragonzap.com" target="_blank"><img src="https://dragonzap.com/dist/images/logo/logo.png" width="200" alt="Dragon Zap Logo" /></a></p>
+
+## ChatGPT Assistant Wrapper Weather Station Example App
+
+This repository provides a simple PHP Laravel 10 Application for using the ChatGPT Assistant wrapper. These examples are designed to help you understand how to integrate and use the Dragon Zap ChatGPT Assistant library in various scenarios. You may clone this repository to use as a starting base or follow the installation guide below
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://github.com/dragonzapeducation/chatgpt-assistant-examples/blob/main/laravel10-api-app/screenshot.jpg" alt="Screenshot example of the laravel application" />
 </p>
 
-## About Laravel
+## Using this Laravel 10 ChatGPT Weather Application example
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Step 1 - Clone the repository
+```bash
+git clone https://github.com/dragonzapeducation/chatgpt-assistant-examples.git
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Step 2 - Modify the .env file
+You need to modify the [".env"](https://github.com/dragonzapeducation/chatgpt-assistant-examples/blob/main/laravel10-api-app/.env) file to update the key value pairs for your api keys and other configuration settings.
+Open the [".env"](https://github.com/dragonzapeducation/chatgpt-assistant-examples/blob/main/laravel10-api-app/.env) hidden file inside the `"laravel10-api-app"` directory and update the `OPENAI_CHATGPT_KEY` to equal to your OPENAI key that you created at [platform.openai.com](https://platform.openai.com) . Next you need to update the `OPENWEATHERMAP_KEY` so that it is equal to your Open Weather Map API Key which gives us access to weather data. You can register for the api key here for free: [https://openweathermap.org/](https://openweathermap.org/) it should be noted that it can take a few hours for your Open weather map API key to be initialized.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Step 3 - Update composer
+You need to run the `composer update` command inside the `laravel10-api-app` directory.
+### Step 4 - Run Artisan
+You need to run artisan `php artisan serve --host=0.0.0.0` 
 
-## Learning Laravel
+### Step 5 - Navigating to your web application
+Go to a web browser and navigate to http://127.0.0.1:8000 where you will be able to talk with your weather assistant. 
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Custom Installation In A Seperate Project
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+You might want to install the ChatGPT library in your own laravel project, To install the [ChatGPT Assistant wrapper](https://github.com/dragonzapeducation/chatgpt-assistant), use Composer. Run the following command in your project directory:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+composer require dragonzap/openai-chatgpt-assistant
+```
+After package installation, register the service provider in your Laravel application.
 
-## Laravel Sponsors
+1. Open your `config/app.php` file and locate the `providers` array.
+2. Add the `ChatGptAssistantProvider` to the array:
+    ```php
+    'providers' => [
+        // Other Service Providers
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+        Dragonzap\OpenAI\ChatGPT\ChatGptAssistantProvider::class,
+    ],
+    ```
 
-### Premium Partners
+This will enable the Laravel application to recognize and utilize the service provider.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Finally you will need to publish the configuration file
+```bash
+php artisan vendor:publish --provider="Dragonzap\OpenAI\ChatGPT\ChatGptAssistantProvider" --force
+```
 
-## Contributing
+Now you should find a new file named `config/dragonzap.php` open it up where you will find the configuration
+```php
+<?php
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+return [
+    'openai' => [
+        'key' => env('OPENAI_CHATGPT_KEY', 'default-key-value')
+    ]
+];
+```
+You can modify your `.env` file to include your `OPENAI_CHATGPT_KEY` thus completing the installation.
 
-## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Laravel Examples
+### Weather Assistant
+The weather assistant is controlled through the [AI Assistant Controller](https://github.com/dragonzapeducation/chatgpt-assistant-examples/blob/main/laravel10-api-app/app/Http/Controllers/Api/V1/AIAssistantController.php)
 
-## Security Vulnerabilities
+### Test Assistant Command
+The Laravel command that tests the assistant is the [ChatGPTTestCommand.php](https://github.com/dragonzapeducation/chatgpt-assistant-examples/blob/main/laravel10-api-app/app/Console/Commands/ChatGPTTestCommand.php) file.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Assistants
+You can find all the ChatGPT assistants in the [App/Assistants](https://github.com/dragonzapeducation/chatgpt-assistant-examples/tree/main/laravel10-api-app/app/Assistants) namespace. 
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Other Examples
+
+### 1. Console Blocking Chat Example
+This example demonstrates a console-based chat application using the ChatGPT Assistant wrapper.  
+**Code:** [Console Chat Example](https://github.com/dragonzapeducation/chatgpt-assistant-examples/blob/main/JustSimplePhp/src/console-chat-example.php)
+
+### 2. Simple Usage of Assistants
+A basic example showing how to use assistants in a straightforward manner.  
+**Code:** [Simple Assistant Example](https://github.com/dragonzapeducation/chatgpt-assistant-examples/blob/main/JustSimplePhp/src/unknown-assistant-example.php)
+
+### 3. Assistants in Web Applications
+For integrating assistants in web applications, this example will guide you through.  
+**Code:** [Web Application Assistant Example](https://github.com/dragonzapeducation/chatgpt-assistant-examples/blob/main/JustSimplePhp/src/reload-conversation-example.php)
+
+### 4. Direct Access to OpenAI API
+If you need to access the OpenAI API directly, bypassing the `dragonzap/openai-chatgpt-assistant` library, check out this example.  
+**Code:** [OpenAI Direct API Example](https://github.com/dragonzapeducation/chatgpt-assistant-examples/blob/main/JustSimplePhp/src/openai-direct-api-example.php)
+
+---
+
+Feel free to explore these examples to better understand how to work with the ChatGPT Assistant wrapper in PHP.
