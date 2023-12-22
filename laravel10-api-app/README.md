@@ -19,12 +19,94 @@ git clone https://github.com/dragonzapeducation/chatgpt-assistant-examples.git
 You need to modify the [".env"](https://github.com/dragonzapeducation/chatgpt-assistant-examples/blob/main/laravel10-api-app/.env) file to update the key value pairs for your api keys and other configuration settings.
 Open the [".env"](https://github.com/dragonzapeducation/chatgpt-assistant-examples/blob/main/laravel10-api-app/.env) hidden file inside the `"laravel10-api-app"` directory and update the `OPENAI_CHATGPT_KEY` to equal to your OPENAI key that you created at [platform.openai.com](https://platform.openai.com) . Next you need to update the `OPENWEATHERMAP_KEY` so that it is equal to your Open Weather Map API Key which gives us access to weather data. You can register for the api key here for free: [https://openweathermap.org/](https://openweathermap.org/) it should be noted that it can take a few hours for your Open weather map API key to be initialized.
 
-### Step 3 - Update composer
+You will also want to update the following environmental variables to point to your own ChatGPT assistants
+```
+BOSSYBETTYAASSISTANT_ID=asst_EeISm92FY4mtwNK3yth0wFVS
+WEATHERASSISTANT_ID=asst_cWrXNjOWrfhacZSKzjrOvwKq
+```
+
+Only the `WEATHERASSISTANT_ID` has to be modified
+
+### Step 3 - Updating your weather assistant on ChatGPT
+You now need to update your Weather assistant at  [platform.openai.com](https://platform.openai.com) give the assistant the following instructions:
+```
+You are a weather assistant your job is to help find the weather for the user. Be professional and friendly.
+```
+
+
+#### Creating the get_weather function
+Next you need to create the `get_weather` function inside of your GPT Assistant. ChatGPT will call your get_weather function within your [Weather Assistant Class](https://github.com/dragonzapeducation/chatgpt-assistant-examples/blob/main/laravel10-api-app/app/Assistants/WeatherAssistant.php) whenever it wishes to look up the weather for a particular location. Define the `get_weather` function now at  [platform.openai.com](https://platform.openai.com):
+```
+{
+  "name": "get_weather",
+  "description": "Determine weather in my location",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "location": {
+        "type": "string",
+        "description": "The city and state e.g. London"
+      }
+    },
+    "required": [
+      "location"
+    ]
+  }
+}
+```
+
+#### Creating the handle_weather function
+Also inside your OPENAI ChatGPT Assistant create the handle_weather function
+```
+{
+  "name": "handle_weather",
+  "description": "Called when we should handle the obtained weather. Should be called everytime weather is found ",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "location": {
+        "type": "string",
+        "description": "The city location"
+      },
+      "temperature": {
+        "type": "number",
+        "description": "The temperature that has been obtained"
+      },
+      "extra_notes": {
+        "type": "string",
+        "description": "A simple sentance giving an overview of the weather conditions"
+      },
+      "category": {
+        "type": "string",
+        "enum": [
+          "raining",
+          "sunny",
+          "clouds",
+          "snowing"
+        ]
+      }
+    },
+    "required": [
+      "location",
+      "temperature",
+      "extra_notes",
+      "category"
+    ]
+  }
+}
+```
+ChatGPT will call the `handle_weather` function in our [Weather Assistant Class](https://github.com/dragonzapeducation/chatgpt-assistant-examples/blob/main/laravel10-api-app/app/Assistants/WeatherAssistant.php) whenever it has obtained weather data. This will then allow our web application to add the weather to the web page so the user can see it. 
+
+### Step 4 - Update composer
 You need to run the `composer update` command inside the `laravel10-api-app` directory.
-### Step 4 - Run Artisan
+
+
+### Step 5 - Update composer
+Ensure your `.env` file is saved and then run the `php artisan optimize:clear` command from within the `laravel10-api-app` directory.
+### Step 6 - Run Artisan
 You need to run artisan `php artisan serve --host=0.0.0.0` 
 
-### Step 5 - Navigating to your web application
+### Step 7 - Navigating to your web application
 Go to a web browser and navigate to http://127.0.0.1:8000 where you will be able to talk with your weather assistant. 
 
 ## Custom Installation In A Seperate Project
