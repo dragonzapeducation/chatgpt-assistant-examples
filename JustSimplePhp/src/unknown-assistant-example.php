@@ -2,6 +2,7 @@
 require "../vendor/autoload.php";
 use Dragonzap\OpenAI\ChatGPT\APIConfiguration;
 use Dragonzap\OpenAI\ChatGPT\Assistant;
+use Dragonzap\OpenAI\ChatGPT\Exceptions\ThreadRunResponseLastError;
 use Dragonzap\OpenAI\ChatGPT\UnknownAssistant;
 
 /**
@@ -25,7 +26,14 @@ while(1)
     $input_message = fgets(STDIN);
     echo 'User:' . $input_message . "\n";
     $conversation->sendMessage($input_message);
-    $conversation->blockUntilResponded();
+    try
+    {
+        $conversation->blockUntilResponded();
+    }
+    catch(ThreadRunResponseLastError $ex) {
+        throw $ex;
+    }
+    
     
     echo 'Assistant: ' . $conversation->getResponseData()->getResponse() . "\n";
     

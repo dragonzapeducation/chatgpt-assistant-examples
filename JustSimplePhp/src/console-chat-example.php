@@ -3,6 +3,7 @@ require "../vendor/autoload.php";
 use Dragonzap\OpenAI\ChatGPT\APIConfiguration;
 use Dragonzap\OpenAI\ChatGPT\Assistant;
 use Dragonzap\OpenAI\ChatGPT\ConversationIdentificationData;
+use Dragonzap\OpenAI\ChatGPT\Exceptions\ThreadRunResponseLastError;
 
 /**
  * Run the console chat
@@ -86,7 +87,7 @@ class JessicaAssistant extends Assistant
 }
 
 // Replace the API Key with your own chatgpt API key
-$assistant = new JessicaAssistant(new APIConfiguration('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'));
+$assistant = new JessicaAssistant(new APIConfiguration('API KEY HERE'));
 $conversation = $assistant->newConversation();
 
 while(1)
@@ -94,7 +95,13 @@ while(1)
     $input_message = fgets(STDIN);
     echo 'User:' . $input_message . "\n";
     $conversation->sendMessage($input_message);
-    $conversation->blockUntilResponded();
+    try
+    {
+        $conversation->blockUntilResponded();
+    }
+    catch(ThreadRunResponseLastError $ex) {
+        throw $ex;
+    }
     
     echo 'Assistant: ' . $conversation->getResponseData()->getResponse(). "\n";
 
